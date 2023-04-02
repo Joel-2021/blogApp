@@ -31,7 +31,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    userLogin(data);
+    userLogin();
   };
   return (
     <Form component="form" onSubmit={handleSubmit(onSubmit)}>
