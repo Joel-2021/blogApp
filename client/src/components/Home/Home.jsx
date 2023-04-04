@@ -1,5 +1,6 @@
 import { Container, Typography, Box, styled, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { GetBlogs,GetAll} from "../../services/blogApi";
 const Blog=styled(Box)`
 display:flex;
 justify-content:space-between;
@@ -8,6 +9,10 @@ align-items:center;
 padding:1rem;
 `
 const Home = () => {
+  useEffect(()=>{
+    GetAll()
+    GetBlogs()
+  },[])
   return (
     <Container sx={{display:'flex',justifyContent:'center',flexDirection:'column',alignItems:'center'}}>
       <Typography variant="h6" gutterBottom sx={{paddingTop:'2rem'}}>Blogs</Typography>

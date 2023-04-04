@@ -2,16 +2,19 @@ import {
   Button,
   Container,
   FormControl,
-  FormGroup,
   TextField,
   Typography,
   styled,
-  Alert
+  Alert,
+  CircularProgress,
+  Snackbar,
 } from "@mui/material";
-import React from "react";
+import React, { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { userLogin } from "../../services/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { resetError } from "../../slice/AuthSlice";
 const Form = styled(Container)`
   display: flex;
   justify-content: center;
@@ -24,18 +27,39 @@ const Input = styled(TextField)`
   margin: 1rem;
 `;
 const Login = () => {
+  const isLoading = useSelector((state) => state.loading);
+  const error = useSelector((state) => state.error);
+  const [open, setOpen] = useState();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (error !== null) {
+      setOpen(true);
+    }
+  }, [error]);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    userLogin(data);
+    userLogin(dispatch, data,navigate);
   };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+    dispatch(resetError());
+  };
+  console.log(error)
   return (
     <Form component="form" onSubmit={handleSubmit(onSubmit)}>
-      <Alert onClose={() => {}} severity="error">This is a success alert — check it out!</Alert>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}  key={'top'+'center'}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {error}
+        </Alert>
+      </Snackbar>
       <Typography variant="h4" gutterBottom padding="2rem">
         Login
       </Typography>
@@ -61,13 +85,18 @@ const Login = () => {
           sx={{ width: "200px", margin: "2rem" }}
           type="submit"
         >
-          Login
+          {isLoading ? (
+            <CircularProgress size="1rem" color="inherit" />
+          ) : (
+            "Login"
+          )}
         </Button>
       </FormControl>
       <Typography
         variant="subtitle2"
         onClick={() => navigate("/signup")}
         gutterBottom
+        sx={{cursor:'pointer'}}
       >
         Click here to signup
       </Typography>

@@ -42,7 +42,7 @@ export const login=asyncHandler(async(req,res)=>{
             email:user.email,
             username:user.username,
             isAdmin:user.isAdmin, 
-            token:generateToken(user.username)
+            token:generateToken(user._id)
         })
     }else{
         res.status(400)

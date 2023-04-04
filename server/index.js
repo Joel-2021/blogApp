@@ -3,6 +3,7 @@ import cors from 'cors'
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import userRouter from './routes/users.js'
+import blogRouter from './routes/blogs.js'
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 
 const PORT = 8000;
@@ -20,6 +21,7 @@ db.on('error', (error) => console.log(error));
 db.once('open', () => console.log("connected to database"));
 
 app.use('/users', userRouter);
+app.use('/blogs', blogRouter);
 app.use(notFound)
 app.use(errorHandler)
 app.listen(PORT, () => console.log('Server is listening on Port ' + PORT));
