@@ -1,6 +1,6 @@
 import { Container, FormControl, InputLabel, TextField, Typography,FormGroup, Box, Button, styled } from '@mui/material'
 import React from 'react'
-import {Image} from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import {useForm} from 'react-hook-form'
 import { CreateBlog } from '../../services/blogApi';
 const Buttons=styled(Box)`
@@ -14,11 +14,13 @@ font-weight:500px;
 font-size:20px;
 padding-top:1rem ;
 `
-const onSubmit=(data)=>{
-   CreateBlog(data)
-}
 const Create = () => {
     const {register,handleSubmit,formState:{errors}}=useForm()
+    const navigate=useNavigate()
+    const onSubmit=(data)=>{
+       CreateBlog(data)
+       navigate('/')
+    }
   return (
     <Container component='form' onSubmit={handleSubmit(onSubmit)}>
         <Typography variant='h6' gutterBottom textAlign='center' paddingTop='1rem'>

@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { userLogin } from "../../services/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { resetError } from "../../slice/AuthSlice";
+import { resetSignUp } from "../../slice/signUpSlice";
 const Form = styled(Container)`
   display: flex;
   justify-content: center;
@@ -27,12 +28,13 @@ const Input = styled(TextField)`
   margin: 1rem;
 `;
 const Login = () => {
-  const isLoading = useSelector((state) => state.loading);
-  const error = useSelector((state) => state.error);
+  const isLoading = useSelector((state) => state.auth.loading);
+  const error = useSelector((state) => state.auth.error);
   const [open, setOpen] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(resetSignUp())
     if (error !== null) {
       setOpen(true);
     }

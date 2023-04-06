@@ -28,7 +28,7 @@ const Link = styled(NavLink)`
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.isAuthenticated);
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
   return (
     <NavBar>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -36,9 +36,8 @@ const Header = () => {
           Blogger
         </Typography>
         <Links>
-          {isAuth && <Link to="/">Home</Link>}
+   <Link to="/">Home</Link>
           {isAuth && <Link to="/create">Create</Link>}
-          {isAuth && <Link to="/mypost">My Posts</Link>}
           {isAuth === true ? (
             <a
               color="inherit"

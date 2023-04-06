@@ -7,10 +7,11 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { userSignUp } from "../../services/auth";
+import { useDispatch,useSelector } from "react-redux";
 const Form = styled(Container)`
   display: flex;
   justify-content: center;
@@ -23,14 +24,19 @@ const Input = styled(TextField)`
   margin: 1rem;
 `;
 const SignUp = () => {
+  const isSignedUp=useSelector(state=>state.signUp.isSignedUp)
   const navigate = useNavigate();
+  const dispatch=useDispatch()
+  useEffect(()=>{
+    if(isSignedUp) navigate('/login')
+  },[isSignedUp])
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    userSignUp(data);
+  userSignUp(dispatch,data);
   };
   return (
     <Form component="form" onSubmit={handleSubmit(onSubmit)}>

@@ -14,6 +14,10 @@ const blogSchema = new mongoose.Schema({
     type: String, // URL or file path
     required: false,
   },
+  author: {
+    type:String,
+    required: true,
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,

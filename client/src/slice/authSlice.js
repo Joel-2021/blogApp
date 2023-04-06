@@ -4,7 +4,8 @@ const initialState={
     error:null,
     token:localStorage.getItem('token'),
     loading:false,
-    isAuthenticated:null
+    isAuthenticated:null,
+    user:null
 }
 const authSlice=createSlice({
     name:'auth',
@@ -18,11 +19,13 @@ const authSlice=createSlice({
             state.isAuthenticated = true;
             state.token = action.payload.token;
             state.error = null;
+            state.user=action.payload
           },
           loginFailed: (state, action) => {
             state.loading = false;
             state.isAuthenticated = false;
             state.error = action.payload;
+            state.user=null
           },
           logout: (state) => {
             state.isAuthenticated = false;

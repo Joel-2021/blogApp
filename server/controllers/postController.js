@@ -4,7 +4,7 @@ import asyncHandler from "express-async-handler";
 //CREATE NEW BLOG
 export const CreateBlog = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
-  const blog = new Blog({ title, content,user:req.user.id });
+  const blog = new Blog({ title, content,user:req.user.id,author:req.user.username });
   await blog.save();
   res.status(201).json({ message: "Blog posted successfully" });
 });
@@ -31,13 +31,13 @@ export const UpdateBlog = asyncHandler(async (req, res) => {
 
 
 //GET ALL BLOGS FROM DB
-export const GetUserBlogs = asyncHandler(async (req, res) => {
+export const GetAllBlogs  = asyncHandler(async (req, res) => {
   const blogs = await Blog.find();
   res.status(200).json(blogs);
 });
 
 // GET ALL BLOGS OF THE USER
-export const GetAllBlogs = asyncHandler(async (req, res) => {
+export const GetUserBlogs = asyncHandler(async (req, res) => {
   const blogs = await Blog.find({user:req.user._id});
   res.status(200).json(blogs);
 });
